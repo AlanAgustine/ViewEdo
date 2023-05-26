@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  {% block css %}
+    <style>
+      .login-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .login-form h2 {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .login-form label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .login-form input[type="text"],
+      .login-form input[type="password"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .login-form button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .login-form button[type="submit"]:hover {
+        background-color: #555;
+      }
+      nav {
+      background-color: #333;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    nav li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    nav a:hover {
+      text-decoration: ;
+    }
+    </style>
+  {% endblock %}
+</head>
+<body>
+    <nav>
+        <img src="/static/images/logo.png" alt="Logo" style="max-height: 40px; max-width: 100px;">
+    
+        <h1 style="margin: 0; margin-left: 10px;">VIEWEDO</h1>
+        <ul style="margin-left: auto;">
+        <li><a href="{% url 'photoedit:index' %}"class="btn">HOME</a></li>
+        <li>
+        
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#">{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                  <form action="{% url 'photoedit:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link nav-link">LOGOUT</button>
+                  </form>
+                </li>
+        </li>
+        <li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="btn" href="{% url 'photoedit:login' %}">LOGIN</a>
+                </li>
+    
+                <li >
+                  <a class="btn" href="{% url 'photoedit:register' %}">REGISTER</a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+           
+        </li> 
+          
+         <!-- other navigation links -->
+  
+      </nav>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">{{ '' }}</div>
+          <div class="card-body">
+            <form method="post" class="login-form">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit">Login</button>
+              <P>Forgot Password</P> <!-- Add this line for the "Forgot Password" link -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tutor &mdash; Free Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/brand/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <div class="site-wrap" id="home-section">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <header class="site-navbar light site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center position-relative">
+
+          <div class="col-3">
+            <div class="site-logo">
+              <img src="/static/images/logo.png" alt="Logo" style="max-height: 40px; max-width: 100px;">
+              <h1 style="margin: 0; margin-left: 10px;">VIEWEDO</h1>
+            </div>
+          </div>
+
+          <div class="col-9  text-right">
+            
+            <span class="d-inline-block d-lg-none"><a href="#" class=" site-menu-toggle js-menu-toggle py-5 "><span class="icon-menu h3 text-black"></span></a></span>
+
+            <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav ml-auto ">
+
+                {% if user.is_authenticated %}
+                
+                <li class="active"><a href="{% url 'photoedit:index' %}"  class="nav-link">Home</a></li>
+               
+                <li><a href="{% url 'photoedit:software_list' %}" class="nav-link">TUTORIALS</a></li>
+                <li><a href="{% url 'photoedit:p_course' %}" class="nav-link">PAYED TUTORIALS</a></li>
+                <li><a href="{% url 'photoedit:blog' %}" class="nav-link">Blog</a></li>
+  
+               
+                <li><a href="{% url 'photoedit:my_courses' %}" class="nav-link">MY COURSES</a></li>
+                <li><form action="{% url 'photoedit:logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link">LOGOUT</button>
+                </form>
+                </li>
+               {% else %}               
+                <li class="active"><a href="{% url 'photoedit:index' %}"  class="nav-link">Home</a></li>
+                <li><a href="{% url 'photoedit:software_list' %}" class="nav-link">Tutorials</a></li>
+                <li><a href="http://127.0.0.1:8000/blog/" class="nav-link">Blog</a></li>
+           
+                <li><a href="{% url 'photoedit:login' %}" class="nav-link">LOGIN</a></li>
+                <li><a href="{% url 'photoedit:register' %}" class="nav-link">REGISTER</a></li>
+                <li><form action="{% url 'photoedit:logout' %}" method="post">
+      
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+
+          
+        </div>
+      </div>
+
+    </header>
+
+    
+    <div class="site-section-cover overlay" style="background-image: url('images/hero_bg.jpg');">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1>MY <strong></strong>  <strong>COURSES</strong></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            {% block content %}
+            <h1>My Courses</h1>
+            {% if my_courses %}
+              <div class="row">
+                {% for my_course in my_courses %}
+                  <div class="col-md-4 mb-4">
+                    <div class="course-card">
+                      <a href="{% url 'photoedit:course_detail' my_course.course.id %}">
+                        <img src="{{ my_course.course.software_icon.url }}" alt="{{ my_course.course.title }}" width="50" height="50">
+                        {{ my_course.course.title }}
+                      </a>
+                      <form method="post" action="{% url 'photoedit:remove_course' my_course.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Remove Course</button>
+                      </form>
+                    </div>
+                  </div>
+                {% empty %}
+                  <div class="col">
+                    <p>No courses added yet.</p>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="col">
+                <p>No courses added yet.</p>
+              </div>
+            {% endif %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+    

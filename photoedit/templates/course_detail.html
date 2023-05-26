@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tutor &mdash; Free Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/brand/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>.comment-form-wrap {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .comment-form h3 {
+    margin-bottom: 20px;
+  }
+  
+  .comment-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .comment-form input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .comment-form input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  .centered-button {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+
+
+</head>
+<body>
+
+  <div class="site-wrap" id="home-section">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <header class="site-navbar light site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center position-relative">
+
+          <div class="col-3">
+            <div class="site-logo">
+              <img src="/static/images/logo.png" alt="Logo" style="max-height: 40px; max-width: 100px;">
+              <h1 style="margin: 0; margin-left: 10px;">VIEWEDO</h1>
+            </div>
+          </div>
+
+          <div class="col-9 text-right">
+            
+            <span class="d-inline-block d-lg-none"><a href="#" class="site-menu-toggle js-menu-toggle py-5 "><span class="icon-menu h3 text-black"></span></a></span>
+
+            <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav ml-auto ">
+
+                {% if user.is_authenticated %}
+                
+                <li class="active"><a href="{% url 'photoedit:index' %}" class="nav-link">Home</a></li>
+               
+                <li><a href="{% url 'photoedit:software_list' %}" class="nav-link">TUTORIALS</a></li>
+                <li><a href="{% url 'photoedit:p_course' %}" class="nav-link">PAYED TUTORIALS</a></li>
+                <li><a href="{% url 'photoedit:blog' %}" class="nav-link">Blog</a></li>
+  
+              
+                <li><a href="{% url 'photoedit:my_courses' %}" class="nav-link">MY COURSES</a></li>
+                <li><form action="{% url 'photoedit:logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link">LOGOUT</button>
+                </form>
+                </li>
+                {% else %}               
+                <li class="active"><a href="{% url 'photoedit:index' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'photoedit:software_list' %}" class="nav-link">Tutorials</a></li>
+                <li><a href="{% url 'photoedit:blog' %}" class="nav-link">Blog</a></li>
+            
+                <li><a href="{% url 'photoedit:login' %}" class="nav-link">LOGIN</a></li>
+                <li><a href="{% url 'photoedit:register' %}" class="nav-link">REGISTER</a></li>
+                <li>
+                  <form action="{% url 'photoedit:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link">LOGOUT</button>
+                  </form>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="site-section-cover overlay" style="background-image: url('images/hero_bg.jpg');">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1>The <strong>Hub</strong> Of <strong>Tutorials</strong></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {% block content %}
+    {% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'photoedit:add_course' course.id %}">
+      {% csrf_token %}
+      
+      <button type="submit" class="btn btn-primary">Add to My Course</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'photoedit:login' %}">Login</a> to add this course to your course list.</p>
+  {% endif %}
+</div>
+      <div class="container">
+        <h1>{{ course.title }}</h1>
+        <img src="{{ course.software_icon.url }}" alt="{{ course.title }}" width="100" height="100">
+        <p>{{ course.description }}</p>
+    
+        <h2>Course Content:</h2>
+        {% for content in course_content %}
+          <h3>{{ content.title }}</h3>
+          <p>{{ content.content }}</p>
+        {% endfor %}
+
+       
+
+       
+    {% endblock %}
+  </div> 
+  
+  
+
+  <div class="pt-5">
+    <h3 class="mb-5">Comments</h3>
+    <ul class="comment-list">
+      {% for comment in comments %}
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="images/person_2.jpg" alt="">
+        </div>
+        <div class="comment-body">
+          
+          <div class="meta">{{ comment.created_at }}</div>
+          <p>{{ comment.name }}</p>
+          <p>{{ comment.message }}</p>
+          <p><a href="#" class="reply">Reply</a></p>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="comment-form-wrap pt-5">
+      <h3 class="mb-5">Leave a comment</h3>
+      <form method="post" action="{% url 'photoedit:add_comment' course.id %}" class="comment-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+          <input type="submit" value="Post Comment" class="btn btn-primary btn-md text-white">
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <h2 class="footer-heading mb-4">About Us</h2>
+          <p>Discover the art of photo editing with us. Unleash your creativity and enhance your skills with our expert guidance. Join us on this exciting journey today! </p>
+          <ul class="list-unstyled social">
+            <li><a href="#"><span class="icon-facebook"></span></a></li>
+            <li><a href="#"><span class="icon-instagram"></span></a></li>
+            <li><a href="#"><span class="icon-twitter"></span></a></li>
+            <li><a href="#"><span class="icon-linkedin"></span></a></li>
+          </ul>
+        </div>
+       
+            <div class="col-lg-3">
+              <h2 class="footer-heading mb-4">Resources</h2>
+              <ul class="list-unstyled">
+                <li><a href="#">
+                  Beginner's Guide to Photo Editing</a></li>
+                <li><a href="#"> Advanced Photo Editing Techniques</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+            <div class="col-lg-3">
+              <h2 class="footer-heading mb-4">Support</h2>
+              <ul class="list-unstyled">
+                <li><a href="#">Report a Problem</a></li>
+                <li><a href="#"> Terms of Service</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#"> Feedback</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+      
+            </div>
+            <div class="col-lg-3">
+              <h2 class="footer-heading mb-4">Company</h2>
+              <ul class="list-unstyled">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Testimonials</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-5 mt-5 text-center">
+        <div class="col-md-12">
+          <div class="border-top pt-5">
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+    <!-- JS -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

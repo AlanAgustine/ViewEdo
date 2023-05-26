@@ -1,0 +1,336 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tutor &mdash; Free Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+  <link rel="stylesheet" href="{% static 'fonts/brand/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    /* Add your custom CSS styles here */
+    .sidebar {
+  position: fixed;
+  top: 400px; /* Adjust this value according to your navbar's height */
+  left: 0;
+  transform: translateY(-50%);
+  width: 200px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  z-index: 9999;
+  overflow-y: auto;
+  max-height: calc(100vh - 300px); /* Adjust this value to set the maximum height of the sidebar */
+}
+
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #000;
+}
+
+.scroll-button {
+  display: block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.scroll-button:hover {
+  background-color: #333;
+}
+
+  </style>
+</head>
+<body>
+  <main>
+    <aside class="sidebar">
+      <h2>Tutorial List</h2>
+      <ul>
+        {% for tutorial in tutorials %}
+        <li><a href="{% url 'photoedit:detail' tutorial.pk %}">{{ tutorial.title }}</a></li>
+        {% endfor %}
+        <!-- List of tutorials -->
+      </ul>
+      
+      <a href="#top" class="scroll-button">Scroll to Top</a>
+    </aside>
+    
+    <!-- Add an element with an "id" attribute at the top of the page -->
+    <div id="top"></div>
+    
+    <section class="content">
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+  
+
+  <div class="site-wrap" id="home-section">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <header class="site-navbar light site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center position-relative">
+
+          <div class="col-3">
+            <div class="site-logo">
+              <img src="/static/images/logo.png" alt="Logo" style="max-height: 40px; max-width: 100px;">
+              <h1 style="margin: 0; margin-left: 10px;">VIEWEDO</h1>
+            </div>
+          </div>
+
+          <div class="col-9  text-right">
+            
+            <span class="d-inline-block d-lg-none"><a href="#" class=" site-menu-toggle js-menu-toggle py-5 "><span class="icon-menu h3 text-black"></span></a></span>
+
+            <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav ml-auto ">
+
+                {% if user.is_authenticated %}
+                
+                <li class="active"><a href="{% url 'photoedit:index' %}"  class="nav-link">Home</a></li>
+               
+                <li><a href="{% url 'photoedit:software_list' %}" class="nav-link">TUTORIALS</a></li>
+                <li><a href="{% url 'photoedit:p_course' %}" class="nav-link">PAYED TUTORIALS</a></li>
+                <li><a href="{% url 'photoedit:blog' %}" class="nav-link">Blog</a></li>
+  
+                <li><a href="{% url 'photoedit:my_courses' %}" class="nav-link">MY COURSES</a></li>
+                <li><form action="{% url 'photoedit:logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link">LOGOUT</button>
+                </form>
+                </li>
+               {% else %}               
+                <li class="active"><a href="{% url 'photoedit:index' %}"  class="nav-link">Home</a></li>
+                <li><a href="{% url 'photoedit:software_list' %}" class="nav-link">Tutorials</a></li>
+                <li><a href="{% url 'photoedit:blog' %}" class="nav-link">Blog</a></li>
+      
+                <li><a href="{% url 'photoedit:login' %}" class="nav-link">LOGIN</a></li>
+                <li><a href="{% url 'photoedit:register' %}" class="nav-link">REGISTER</a></li>
+                <li><form action="{% url 'photoedit:logout' %}" method="post">
+      
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+
+          
+        </div>
+      </div>
+      
+    </header>
+
+    
+
+    
+    <div class="site-section-cover overlay" style="background-image: url('images/hero_bg.jpg');">
+      
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1>The <strong>Hub</strong> Of <strong>Tutorials</strong></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="site-section bg-light pb-0">
+      <div class="container">
+        <div class="row align-items-stretch overlap">
+          <div class="col-lg-8">
+            <div class="box h-100">
+              <div class="d-flex align-items-center">
+                <div class="img"><img src="{% static 'images/img_1.jpg'%}", class="img-fluid" alt="Image"></div>
+                <div class="text">
+                
+  
+                  <a href="#" class="category">{{ tutorial.title }}</a>
+                  <h3><a href="#">Unlock the Art of Photo Editing: VIEWEDO</a></h3>
+                  <p>
+                    Welcome to our website for learning about photo editing techniques and software. Explore the world of photo editing, from basic adjustments to advanced manipulations. Discover the secrets behind stunning visual transformations and popular software tools. Join our community of passionate learners and unleash your creativity.</p>
+                  <p class="mb-0">
+                    <span class="brand-react h5"></span>
+                    <span class="brand-javascript h5"></span>
+                  </p>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+         
+             
+          <div class="col-lg-4">
+            
+             
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section bg-light">
+      <div class="container">
+        <div class="row mb-5 align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <form action="{% url 'photoedit:search' %}" class="d-flex search-form" method="GET">
+              <span class="icon-search"></span>
+              <input type="search" name="query" class="form-control mr-2" placeholder="Search subjects">
+              <input type="submit" class="btn btn-primary px-4" value="Search">
+            </form>
+            
+            
+          </div>
+          <div class="col-lg-6 text-lg-right">
+            <div class="d-inline-flex align-items-center ml-auto">
+            <span class="mr-4">Share:</span>
+            <a href="#" class="mx-2 social-item"><span class="icon-facebook"></span></a>
+            <a href="#" class="mx-2 social-item"><span class="icon-twitter"></span></a>
+            <a href="#" class="mx-2 social-item"><span class="icon-linkedin"></span></a>
+            </div>
+          </div>
+        </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 blog-contet">
+            <h1>Tutorials</h1>
+            <ul>
+              {% for tutorial in tutorials %}
+              <li>
+                <h2>{{ tutorial.title }}</h2>
+                <p>{{ tutorial.description }}</p>
+
+                <li><img src="{{ tutorial.thumbnail.url }}" alt="{{ tutorial.title }}" width="400" height="300"></li>
+                <video width="400" height="300" controls>
+                  <source src="{{ tutorial.video.url }}" type="video/mp4" >
+                </video>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+     
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <h2 class="footer-heading mb-4">About Us</h2>
+            <p>Discover the art of photo editing with us. Unleash your creativity and enhance your skills with our expert guidance. Join us on this exciting journey today! </p>
+            <ul class="list-unstyled social">
+              <li><a href="#"><span class="icon-facebook"></span></a></li>
+              <li><a href="#"><span class="icon-instagram"></span></a></li>
+              <li><a href="#"><span class="icon-twitter"></span></a></li>
+              <li><a href="#"><span class="icon-linkedin"></span></a></li>
+            </ul>
+          </div>
+         
+              <div class="col-lg-3">
+                <h2 class="footer-heading mb-4">Resources</h2>
+                <ul class="list-unstyled">
+                  <li><a href="#">
+                    Beginner's Guide to Photo Editing</a></li>
+                  <li><a href="#"> Advanced Photo Editing Techniques</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                </ul>
+              </div>
+              <div class="col-lg-3">
+                <h2 class="footer-heading mb-4">Support</h2>
+                <ul class="list-unstyled">
+                  <li><a href="#">Report a Problem</a></li>
+                  <li><a href="#"> Terms of Service</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#"> Feedback</a></li>
+                  <li><a href="#">Sitemap</a></li>
+                </ul>
+        
+              </div>
+              <div class="col-lg-3">
+                <h2 class="footer-heading mb-4">Company</h2>
+                <ul class="list-unstyled">
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Testimonials</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <div class="border-top pt-5">
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'js/jquery.sticky.js' %}"></script>
+  <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'js/jquery.scrollTo.min.js' %}"></script>
+  <script src="{% static 'js/jquery.nav.min.js' %}"></script>
+  <script src="{% static 'js/scrolling.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
+ 
+  
+
+</body>
+</html>

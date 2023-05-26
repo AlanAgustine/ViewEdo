@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Design by foolishdeveloper.com -->
+  <title>Signup Page</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <style media="screen">
+    *,
+    *:before,
+    *:after {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: #080710;
+    }
+    
+    .background {
+      width: 430px;
+      height: 520px;
+      position: absolute;
+      transform: translate(-50%,-50%);
+      left: 50%;
+      top: 50%;
+    }
+    
+    .background .shape {
+      height: 200px;
+      width: 200px;
+      position: absolute;
+      border-radius: 50%;
+    }
+    
+    .shape:first-child {
+      background: linear-gradient(#1845ad, #23a2f6);
+      left: -80px;
+      top: -80px;
+    }
+    
+    .shape:last-child {
+      background: linear-gradient(to right, #ff512f, #f09819);
+      right: -30px;
+      bottom: -80px;
+    }
+    
+    form {
+      height: 600px;
+      width: 450px;
+      background-color: rgba(255,255,255,0.13);
+      position: absolute;
+      transform: translate(-50%,-50%);
+      top: 50%;
+      left: 50%;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(8,7,16,0.6);
+      padding: 50px 35px;
+    }
+    
+    form * {
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      outline: none;
+      border: none;
+    }
+    
+    form h3 {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 42px;
+      text-align: center;
+    }
+    
+    label {
+      display: block;
+      margin-top: 30px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    input {
+      display: block;
+      height: 40px;
+      width: 100%;
+      background-color: rgba(255,255,255,0.07);
+      border-radius: 3px;
+      padding: 0 10px;
+      margin-top: 2px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    
+    ::placeholder {
+      color: #e5e5e5;
+    }
+    
+    button {
+      margin-top: 14px;
+      width: 100%;
+      background-color: #ffffff;
+      color: #080710;
+      padding: 15px 0;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .social {
+      margin-top: 30px;
+      display: flex;
+    }
+    
+    .social div {
+      background: red;
+      width: 150px;
+      border-radius: 3px;
+      padding: 5px 10px 10px 5px;
+      background-color: rgba(255,255,255,0.27);
+      color: #eaf0fb;
+      text-align: center;
+    }
+    
+    .social div:hover {
+      background-color: rgba(255,255,255,0.47);
+    }
+    
+    .social .fb {
+      margin-left: 25px;
+    }
+    
+    .social i {
+      margin-right: 4px;
+    }
+    
+    nav {
+      background-color: #333;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+    
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    
+    nav li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    
+    nav a:hover {
+      text-decoration: ;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <img src="/static/images/logo.png" alt="Logo" style="max-height: 40px; max-width: 100px;">
+    <h1 style="margin: 0; margin-left: 10px;">VIEWEDO</h1>
+    <ul style="margin-left: auto;">
+      <li><a href="{% url 'photoedit:index' %}" class="btn">HOME</a></li>
+      <li>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">{{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+              <form action="{% url 'photoedit:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link nav-link">LOGOUT</button>
+              </form>
+            </li>
+            </li>
+            <li>
+            {% else %}
+            <li class="nav-item">
+              <a class="btn" href="{% url 'photoedit:login' %}">LOGIN</a>
+            </li>
+            <li>
+              <a class="btn" href="{% url 'photoedit:register' %}">REGISTER</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </li>
+      <!-- other navigation links -->
+    </ul>
+  </nav>
+  
+  <div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+  
+  <main>
+    {% block content %}
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">{{ '' }}</div>
+            <div class="card-body">
+              <form method="post" class="form-register">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="{{ form.first_name.id_for_label }}">{{ 'First Name' }}</label>
+                  {{ form.first_name }}
+                  {% if form.first_name.errors %}
+                    <div class="invalid-feedback">{{ form.first_name.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.last_name.id_for_label }}">{{ 'Last Name' }}</label>
+                  {{ form.last_name }}
+                  {% if form.last_name.errors %}
+                    <div class="invalid-feedback">{{ form.last_name.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.phone_number.id_for_label }}">{{ 'Phone Number' }}</label>
+                  {{ form.phone_number }}
+                  {% if form.phone_number.errors %}
+                    <div class="invalid-feedback">{{ form.phone_number.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.email.id_for_label }}">{{ 'Email' }}</label>
+                  {{ form.email }}
+                  {% if form.email.errors %}
+                    <div class="invalid-feedback">{{ form.email.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.username.id_for_label }}">{{ 'Username' }}</label>
+                  {{ form.username }}
+                  {% if form.username.errors %}
+                    <div class="invalid-feedback">{{ form.username.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.password1.id_for_label }}">{{ 'Password' }}</label>
+                  {{ form.password1 }}
+                  {% if form.password1.errors %}
+                    <div class="invalid-feedback">{{ form.password1.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-group">
+                  <label for="{{ form.password2.id_for_label }}">{{ 'Confirm Password' }}</label>
+                  {{ form.password2 }}
+                  {% if form.password2.errors %}
+                    <div class="invalid-feedback">{{ form.password2.errors|join:", " }}</div>
+                  {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">{{ 'Register' }}</button>
+                <a href="{% url 'photoedit:login' %}" >already have an account</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+    {% block css %}{% endblock %}
+  </main>
+</body>
+</html>

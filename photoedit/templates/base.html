@@ -1,0 +1,48 @@
+@login_required(login_url="http://127.0.0.1:8000/login/")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Tuto{% endblock %}</title>
+  <style>
+   
+    
+   
+
+    /* sidebar styles */
+    .sidebar {
+      flex-basis: 250px;
+      margin-left: 10px;
+    }
+    .sidebar h2 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+    .sidebar ul {
+      margin-top: 40px;
+    }
+    .sidebar li {
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      font-size: 16px;
+    }
+    
+  </style>
+</head>
+<body>
+  <main>
+    <aside class="sidebar">
+      <h2>Tutorial List</h2>
+      <ul>
+        {% for tutorial in tutorials %}
+        <li><a href="{% url 'photoedit:detail' tutorial.pk %}">{{ tutorial.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+    <section class="content">
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+</body>
+</html>

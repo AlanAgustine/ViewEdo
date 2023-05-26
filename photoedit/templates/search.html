@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results for</title>
+  <!-- Include your CSS and JavaScript files -->
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js"></script>
+</head>
+<body>
+ <div class="site-section">
+  <div class="container">
+    <div class="search-results">
+      <p>Search Results for "{{ query }}"</p>
+      {% if tutorials %}
+        <ul>
+          {% for tutorial in tutorials %}
+            <li>
+           
+              <h2>{{ tutorial.title }}</h2>
+              <h1>Search Results for "{{ query }}"</h1>
+              <p>{{ tutorial.description }}</p>
+              <img src="{{ tutorial.thumbnail.url }}" alt="{{ tutorial.title }}" width="400" height="300">
+              <video width="320" height="240" controls>
+                <source src="{{ tutorial.video.url }}" type="video/mp4">
+              </video>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No results found.</p>
+      {% endif %}
+    </div>
+  </div>
+ </div>
+</body>
+</html>
