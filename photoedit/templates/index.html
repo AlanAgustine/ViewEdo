@@ -132,6 +132,7 @@
                 <li><a href="{% url 'photoedit:blog' %}" class="nav-link">Blog</a></li>
   
                 <li><a href="{% url 'photoedit:my_courses' %}" class="nav-link">MY COURSES</a></li>
+                <li><a href="{% url 'photoedit:my_payed' %}" class="nav-link">MY PAYED</a></li>
                 <li><form action="{% url 'photoedit:logout' %}" method="post">
                   {% csrf_token %}
                   <button type="submit" class="nav-link">LOGOUT</button>

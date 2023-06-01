@@ -44,6 +44,8 @@ urlpatterns = [
     path('purchased-courses/', purchased_courses, name='purchased_courses'),
     path('buy-course/<int:course_id>/', buy_course, name='buy_course'),
      path('purchase/<int:course_id>/', views.purchase_course, name='purchase_course'),
+     path('buy/<int:pk>',views.buy),
+     path('my_payed',views.my_payed,name='my_payed')
     
 
 

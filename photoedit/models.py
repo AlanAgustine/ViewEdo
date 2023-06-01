@@ -168,4 +168,8 @@ class Comment(models.Model):
         return self.name
 
 
+class pays(models.Model):
+    course=models.ForeignKey(PayedCourse,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    time=models.DateTimeField(auto_now=True)
 

@@ -185,7 +185,15 @@ from .models import PayedCourse, PCourseContent
 def p_detail(request, pk):
     course = get_object_or_404(PayedCourse, pk=pk)
     course_content = course.course_content.all()
-    return render(request, 'p_details.html', {'course': course, 'course_content': course_content})
+    user=request.user
+    payed=pays.objects.filter(user=user,course=course)
+    print(len(payed))
+    if len(payed) > 0:
+        f=1
+    else:
+        f=0
+    print(f)
+    return render(request, 'p_details.html', {'course': course, 'course_content': course_content,'pays':f})
 
 
 
@@ -348,3 +356,19 @@ def buy_course(request, course_id):
         return HttpResponse("Course purchased successfully.")
     else:
         return HttpResponse("You need to be logged in to purchase this course.")
+    
+from . models import pays 
+
+def buy(request,pk):
+    p=PayedCourse.objects.get(id=pk)
+    user=request.user
+    new=pays.objects.create(course=p,user=user)
+    new.save()
+    f=f"http://127.0.0.1:8000/p_details/{pk}"
+    return redirect(f)
+
+
+def my_payed(request):
+    user=request.user
+    my=pays.objects.filter(user=user)
+    return render(request,'my_payed.html',{'my_courses': my})
